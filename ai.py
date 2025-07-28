@@ -2,7 +2,7 @@ from openai import OpenAI
 
 def get_personality_analysis(face_desc: str) -> str:
     """
-    인자로 얼굴 설며을 받아, OpenAI LLM API를 활용하여 성격과 미래를 분석합니다.
+    인자로 얼굴 설명을 받아, OpenAI LLM API를 활용하여 성격과 미래를 분석합니다.
     """
     # doc string
     
