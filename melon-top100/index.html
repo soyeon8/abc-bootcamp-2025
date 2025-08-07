@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>멜론 TOP100 차트</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background: #f8f9fa; }
+        h1 { margin: 30px 0 20px 0; font-weight: bold; }
+        .table { background: #fff; }
+        .chart-container { margin: 40px 0; background: #fff; padding: 20px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>멜론 TOP100 차트</h1>
+        <div id="loading">데이터를 불러오는 중...</div>
+        <div id="table-area" style="display:none;"></div>
+        <div class="chart-container">
+            <canvas id="artistChart"></canvas>
+        </div>
+    </div>
+    <script>
+    async function fetchMelonData() {
+        const url = 'https://pyhub.kr/melon/20231204.json';
+        const res = await fetch(url);
+        const data = await res.json();
+        return data;
+    }
+
+    function renderTable(data) {
+        let html = '<table class="table table-striped"><thead><tr>';
+        html += '<th>순위</th><th>곡명</th><th>가수</th><th>앨범</th>';
+        html += '</tr></thead><tbody>';
+        data.forEach(item => {
+            html += `<tr><td>${item.rank}</td><td>${item.title}</td><td>${item.artist}</td><td>${item.album}</td></tr>`;
+        });
+        html += '</tbody></table>';
+        document.getElementById('table-area').innerHTML = html;
+        document.getElementById('table-area').style.display = 'block';
+    }
+
+    function renderArtistChart(data) {
+        const artistCount = {};
+        data.forEach(item => {
+            artistCount[item.artist] = (artistCount[item.artist] || 0) + 1;
+        });
+        const labels = Object.keys(artistCount);
+        const counts = Object.values(artistCount);
+        const ctx = document.getElementById('artistChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '아티스트별 곡 수',
+                    data: counts,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: '아티스트별 곡 수' }
+                },
+                scales: {
+                    x: { title: { display: true, text: '아티스트' } },
+                    y: { title: { display: true, text: '곡 수' }, beginAtZero: true }
+                }
+            }
+        });
+    }
+
+    fetchMelonData().then(data => {
+        document.getElementById('loading').style.display = 'none';
+        renderTable(data);
+        renderArtistChart(data);
+    }).catch(() => {
+        document.getElementById('loading').innerText = '데이터를 불러오지 못했습니다.';
+    });
+    </script>
+</body>
+</html>

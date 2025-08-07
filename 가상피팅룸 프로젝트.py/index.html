@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>가상 피팅룸 - 전신 사진 배경 제거 + 옷 입히기</title>
+  <style>
+    body {
+      text-align: center;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      display: block;
+      margin: 20px auto;
+      z-index: 1;
+      position: relative;
+      cursor: default;
+    }
+    #clothes-gallery img {
+      width: 80px;
+      height: auto;
+      margin: 5px;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    #clothes-gallery img.selected {
+      border-color: rgb(117, 114, 114);
+    }
+  </style>
+</head>
+<body>
+  <h2>❤️ 나만의 가상 피팅룸 ❤️</h2>
+
+  <input type="file" id="imageUpload" accept="image/*" /><br /><br />
+  <canvas id="canvas" width="400" height="600"></canvas>
+
+  <h3>👚 옷을 골라보세요</h3>
+  <div id="clothes-gallery">
+    <img src="./clothes/아우터1.png" alt="옷1" />
+    <img src="./clothes/아우터2.png" alt="옷2" />
+    <img src="./clothes/아우터3.png" alt="옷3" />
+    <img src="./clothes/아우터4.png" alt="옷4" />
+    <img src="./clothes/아우터5.png" alt="옷5" />
+    <img src="./clothes/원피스2.png" alt="옷5" />
+    <img src="./clothes/원피스3.png" alt="옷5" />
+    <img src="./clothes/원피스.png" alt="옷5" />
+    <img src="./clothes/원피스１.png" alt="옷5" />
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js"></script>
+
+  <script>
+    const input = document.getElementById("imageUpload");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const gallery = document.getElementById("clothes-gallery");
+
+    let userImage = null;
+    let clothImage = new Image();
+    let clothX = 100, clothY = 100;
+    let clothWidth = 200, clothHeight = 200;
+    let isDragging = false;
+    let isResizing = false;
+    const resizeHandleSize = 20;
+
+    const selfieSegmentation = new SelfieSegmentation({
+      locateFile: (file) =>
+        `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`,
+    });
+    selfieSegmentation.setOptions({ modelSelection: 1 });
+    selfieSegmentation.onResults(onResults);
+
+    input.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const img = new Image();
+        img.onload = async function () {
+          userImage = img;
+          canvas.width = 400;
+          canvas.height = 600;
+
+          const tempCanvas = document.createElement("canvas");
+          tempCanvas.width = canvas.width;
+          tempCanvas.height = canvas.height;
+          const tempCtx = tempCanvas.getContext("2d");
+          tempCtx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+          await selfieSegmentation.send({ image: tempCanvas });
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function onResults(results) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.drawImage(results.segmentationMask, 0, 0, canvas.width, canvas.height);
+      ctx.globalCompositeOperation = "source-in";
+      ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+      ctx.restore();
+
+      drawCloth();
+    }
+
+    function drawCloth() {
+      if (clothImage.complete && clothImage.src) {
+        ctx.drawImage(clothImage, clothX, clothY, clothWidth, clothHeight);
+
+        // 크기 조절 핸들 그리기
+        ctx.fillStyle = "rgba(255,0,0,0.6)";
+        ctx.fillRect(
+          clothX + clothWidth - resizeHandleSize,
+          clothY + clothHeight - resizeHandleSize,
+          resizeHandleSize,
+          resizeHandleSize
+        );
+      }
+    }
+
+    gallery.addEventListener("click", (e) => {
+      if (e.target.tagName === "IMG") {
+        document.querySelectorAll("#clothes-gallery img").forEach(img => img.classList.remove("selected"));
+        e.target.classList.add("selected");
+
+        clothImage.src = e.target.src;
+        clothImage.onload = () => {
+          if (userImage) {
+            drawCloth();
+          }
+        };
+      }
+    });
+
+    canvas.addEventListener("mousedown", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const onHandle =
+        x > clothX + clothWidth - resizeHandleSize &&
+        x < clothX + clothWidth &&
+        y > clothY + clothHeight - resizeHandleSize &&
+        y < clothY + clothHeight;
+
+      if (onHandle) {
+        isResizing = true;
+      } else if (
+        x > clothX &&
+        x < clothX + clothWidth &&
+        y > clothY &&
+        y < clothY + clothHeight
+      ) {
+        isDragging = true;
+      }
+    });
+
+    canvas.addEventListener("mousemove", (e) => {
+      if (!isDragging && !isResizing) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      if (isDragging) {
+        clothX = x - clothWidth / 2;
+        clothY = y - clothHeight / 2;
+      } else if (isResizing) {
+        clothWidth = Math.max(50, x - clothX);
+        clothHeight = Math.max(50, y - clothY);
+      }
+
+      const tempCanvas = document.createElement("canvas");
+      tempCanvas.width = canvas.width;
+      tempCanvas.height = canvas.height;
+      const tempCtx = tempCanvas.getContext("2d");
+      tempCtx.drawImage(userImage, 0, 0, canvas.width, canvas.height);
+      selfieSegmentation.send({ image: tempCanvas });
+    });
+
+    canvas.addEventListener("mouseup", () => {
+      isDragging = false;
+      isResizing = false;
+    });
+    canvas.addEventListener("mouseleave", () => {
+      isDragging = false;
+      isResizing = false;
+    });
+  </script>
+</body>
+</html>

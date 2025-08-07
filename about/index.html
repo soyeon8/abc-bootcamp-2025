@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>나의 포트폴리오</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: #fff8f0;
+            font-family: 'Noto Sans KR', 'Nanum Gothic', Arial, sans-serif;
+            color: #a0522d;
+        }
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 0;
+        }
+        /* Remove card style, use default section spacing */
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #a0522d;
+            margin-bottom: 18px;
+        }
+        .hero-lead {
+            font-size: 1.2rem;
+            color: #a0522d;
+            margin-bottom: 12px;
+        }
+        .hero-info {
+            font-size: 1.05rem;
+            color: #a0522d;
+            margin-bottom: 7px;
+        }
+        .hero-quote {
+            font-size: 1.08rem;
+            color: #a0522d;
+            margin-top: 22px;
+            margin-bottom: 0;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #a0522d;
+            letter-spacing: 1px;
+        }
+        .profile-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 16px rgba(210, 105, 30, 0.15);
+            border: 4px solid #ffd8b0;
+        }
+        .nav-link {
+            font-size: 1.1rem;
+            color: #a0522d !important;
+            transition: color 0.2s;
+        }
+        .nav-link:hover {
+            color: #a0522d !important;
+        }
+        .navbar {
+            background: #fff8f0;
+            box-shadow: 0 2px 8px rgba(210, 105, 30, 0.07);
+        }
+        .project-card {
+            background: #fff8f0;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(210, 105, 30, 0.10);
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #ffd8b0;
+        }
+        .list-group-item {
+            background: #fff8f0;
+            color: #a0522d;
+            border: none;
+        }
+        .btn-warm {
+            background: #a0522d;
+            color: #fff;
+            border-radius: 24px;
+            padding: 10px 28px;
+            font-weight: bold;
+            border: none;
+            box-shadow: 0 2px 8px rgba(210, 105, 30, 0.10);
+            transition: background 0.2s;
+        }
+        .btn-warm:hover {
+            background: #7c4a33;
+            color: #fff;
+        }
+        footer {
+            background: #fff8f0;
+            color: #a0522d;
+            text-align: center;
+            padding: 30px 0;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        a {
+            color: #a0522d;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #7c4a33;
+            text-decoration: underline;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">Portfolio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <section id="home">
+        <div class="container text-center">
+            <h1 class="hero-title">황소연</h1>
+            <p class="hero-lead">데이터분석가가 되고싶은 사람</p>
+            <div class="hero-info"><span>MBTI : ENFJ</span></div>
+            <div class="hero-info">Email: <a href="mailto:llw0214@naver.com">llw0214@naver.com</a></div>
+            <div class="hero-info">연락처: 010-5696-4916</div>
+            <div class="hero-info">Instagram: <a href="https://instagram.com/lovely_h.25" target="_blank">lovely_h.25</a></div>
+            <div class="hero-info">GitHub: <a href="https://github.com/soyeon8" target="_blank">soyeon8</a></div>
+            <blockquote class="hero-quote">"대전대학교 빅데이터학과."</blockquote>
+        </div>
+    </section>
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="row align-items-center">
+                <div class="col-md-7">
+                    <p>안녕하세요! 저는 데이터로 세상을 더 나은 방향으로 이끄는 데이터 분석가 황소연입니다.<br>
+                    새로운 기술을 배우고, 그 기술을 활용해 문제를 해결하는 것을 좋아합니다.<br>
+                    협업과 소통을 중요하게 생각하며, 성장하는 개발자가 되고 싶습니다.</p>
+                    <ul>
+                        <li>관심 분야: 데이터 분석, 인공지능, 웹 개발</li>
+                        <li>성격: 호기심 많고, 도전적이며, 따뜻한 마음</li>
+                        <li>비전: 데이터로 사람들의 삶을 더 편리하게!</li>
+                    </ul>
+                </div>
+                <div class="col-md-5 text-center">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwm-y2fyy5d3sWCac7_iIS17xwDh47wN9psQ&s" alt="Quokka" class="profile-img" style="width:160px;height:160px;object-fit:cover;object-position:center 10%;">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Timeline Section -->
+    <section id="timeline">
+        <div class="container">
+            <h2 class="section-title">Journey</h2>
+            <ul class="list-group list-group-flush" style="max-width:600px;margin:auto;">
+                <li class="list-group-item"><strong>2023</strong> - 데이터 분석 공부 시작</li>
+                <li class="list-group-item"><strong>2024</strong> - 첫 데이터 프로젝트 완성</li>
+                <li class="list-group-item"><strong>2025</strong> - 멜론 TOP100 차트 웹앱 개발</li>
+            </ul>
+        </div>
+    </section>
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title">Skills</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Python, JavaScript, HTML, CSS</li>
+                        <li class="list-group-item">Django, Flask, React</li>
+                        <li class="list-group-item">AI/ML, 데이터 분석</li>
+                        <li class="list-group-item">Git, 협업툴</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">문제 해결력</li>
+                        <li class="list-group-item">커뮤니케이션</li>
+                        <li class="list-group-item">팀워크</li>
+                        <li class="list-group-item">창의적 사고</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="project-card">
+                        <h4>멜론 TOP100 차트 웹앱</h4>
+                        <p>멜론 차트 데이터를 시각화하는 웹앱을 개발했습니다.</p>
+                        <a href="#" class="btn btn-warm">자세히 보기</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="project-card">
+                        <h4>AI 챗봇 CLI</h4>
+                        <p>파이썬 기반의 AI 챗봇 CLI 툴을 제작했습니다.</p>
+                        <a href="#" class="btn btn-warm">자세히 보기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Quote Section -->
+    <section id="quote">
+        <div class="container text-center">
+            <blockquote style="font-size:1.3rem; color:#d2691e; margin:40px 0;">
+                "성장은 도전에서 시작된다."
+            </blockquote>
+        </div>
+    </section>
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container text-center">
+            <h2 class="section-title">Contact</h2>
+            <p>Email: <a href="mailto:soyeon.hwang@example.com">soyeon.hwang@example.com</a></p>
+            <p>Email: <a href="mailto:llw0214@naver.com">llw0214@naver.com</a></p>
+            <p>연락처: 010-5696-4916</p>
+            <p>Instagram: <a href="https://instagram.com/lovely_h.25" target="_blank">lovely_h.25</a></p>
+            <p>GitHub: <a href="https://github.com/soyeon8" target="_blank">soyeon8</a></p>
+            <a href="mailto:llw0214@naver.com" class="btn btn-warm mt-3">메일 보내기</a>
+        </div>
+    </section>
+    <footer>
+        &copy; 2025 황소연의 포트폴리오
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
